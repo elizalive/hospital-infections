@@ -56,21 +56,23 @@
 
                             <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.</p>
 
-                            <p>Test change</p>
+                            <p>Test change booyah.</p>
                         </div>
 
                         <div class="col-md-6 chart" id="map">
                             <script>
                                 function main() {
                                     cartodb.createVis('map', 'http://decodedc.cartodb.com/api/v2/viz/c41338c4-c877-11e4-aa87-0e9d821ea90d/viz.json', {
-                                        shareable: true,
-                                        title: true,
-                                        description: true,
-                                        search: true,
+                                        https: true,
+                                        cartodb_logo: false,
+                                        shareable: false,
+                                        title: false,
+                                        description: false,
+                                        search: false,
                                         tiles_loader: true,
-                                        center_lat: 0,
-                                        center_lon: 0,
-                                        zoom: 2
+                                        center_lat: 38.9097,
+                                        center_lon: -77.0231,
+                                        zoom: 12
                                     })
                                     .done(function(vis, layers) {
                                       // layer 0 is the base layer, layer 1 is cartodb layer
