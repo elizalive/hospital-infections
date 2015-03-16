@@ -1,12 +1,16 @@
  <!DOCTYPE html>
  <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
+    
+    <!-- Link to geolocator.js -->
     <script type="text/javascript" src="geolocator.js"></script>
 	<script type="text/javascript">
+    
     //The callback function executed when the location is fetched successfully.
     function onGeoSuccess(location) {
         console.log(location);
     }
+    
     //The callback function executed when the location could not be fetched.
     function onGeoError(error) {
         console.log(error);
@@ -18,5 +22,78 @@
         geolocator.locate(onGeoSuccess, onGeoError, true, html5Options, 'map-canvas');
     };
 	</script>
+    
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    
+    <!-- Link to CartoDB styles -->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- Link to CartoDB.js -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
+
+    <!-- Link to jquery.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <!-- Link to D3.js-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
+
+<body class="">
+    <div id="main-wrapper" class="">
+        <div id="main-content" class="container">
+            <header class="row">
+                <div class="col-md-12">
+                    <h1>Test Visualization</h1>
+                        <div class="introtext">
+                            <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb. </p>
+
+                            <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.</p>
+                        </div>
+
+                        <div class="col-md-6 chart" id="map">
+                                                        <script>
+                                function main() {
+                                    cartodb.createVis('map', 'http://decodedc.cartodb.com/api/v2/viz/c41338c4-c877-11e4-aa87-0e9d821ea90d/viz.json', {
+                                        shareable: true,
+                                        title: true,
+                                        description: true,
+                                        search: true,
+                                        tiles_loader: true,
+                                        center_lat: 0,
+                                        center_lon: 0,
+                                        zoom: 2
+                                    })
+                                    .done(function(vis, layers) {
+                                      // layer 0 is the base layer, layer 1 is cartodb layer
+                                      // setInteraction is disabled by default
+                                      layers[1].setInteraction(true);
+                                      layers[1].on('featureOver', function(e, latlng, pos, data) {
+                                        cartodb.log.log(e, latlng, pos, data);
+                                      });
+
+                                      // you can get the native map to work with it
+                                      var map = vis.getNativeMap();
+
+                                      // now, perform any operations you need
+                                      // map.setZoom(3);
+                                      // map.panTo([50.5, 30.5]);
+                                    })
+                                    .error(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+
+                                  window.onload = main;
+
+                            </script>
+                       
+                        </div>
+                    </div>
 </html>
