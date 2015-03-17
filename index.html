@@ -4,24 +4,6 @@
     
     <!-- Link to geolocator.js -->
     <script type="text/javascript" src="geolocator.js"></script>
-	<script type="text/javascript">
-    
-    //The callback function executed when the location is fetched successfully.
-    function onGeoSuccess(location) {
-        console.log(location);
-    }
-    
-    //The callback function executed when the location could not be fetched.
-    function onGeoError(error) {
-        console.log(error);
-    }
-
-    window.onload = function () {
-        //geolocator.locateByIP(onGeoSuccess, onGeoError, 2, 'map-canvas');
-        var html5Options = { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 };
-        geolocator.locate(onGeoSuccess, onGeoError, true, html5Options, 'map-canvas');
-    };
-	</script>
     
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -43,9 +25,94 @@
 
     <!-- Link to D3.js-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script>
+      var sublayers = [];
+
+      var lon,
+        lat,
+        total = 10;
+
+      function updateQuery() {
+      sublayers[0].set({
+        sql: "SELECT * FROM hosptialsbyhac_clean",
+      });
+    }
+
+      function mapToPosition(position) {
+      lon = position.coords.longitude;
+      lat = position.coords.latitude;
+      updateQuery();
+      map.setView(new L.LatLng(lat,lon), 10);
+      new L.CircleMarker([lat,lon],{radius: 4}).addTo(map);
+      }
+      function detectUserLocation(){
+        if (navigator.geolocation) {
+          var timeoutVal = 10 * 1000 * 1000;
+          navigator.geolocation.watchPosition(
+            mapToPosition, 
+            alertError,
+            { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+          );
+        }
+        else {
+          alert("Geolocation is not supported by this browser");
+        }
+      
+        function alertError(error) {
+          var errors = { 
+            1: 'Permission denied',
+            2: 'Position unavailable',
+            3: 'Request timeout'
+          };
+          alert("Error: " + errors[error.code]);
+        }
+      }
+      var lon,
+          lat,
+          total = 10;
+
+      var map;
+
+      function init(){
+        // initiate leaflet map
+        map = new L.Map('map', { 
+          center: [35,-90],
+          zoom: 5
+        })
+
+        L.tileLayer('https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png', {
+          attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
+        }).addTo(map);
+      
+      var layerUrl = 'http://decodedc.cartodb.com/api/v2/viz/9d6fb234-ccd6-11e4-af9a-0e853d047bba/viz.json';
+
+      
+
+    cartodb.createLayer(map, layerUrl)
+      .addTo(map)
+      .on('done', function(layer) {
+        // change the query for the first layer
+        var v = cdb.vis.Overlay.create('search', map.viz, {})
+                v.show();
+                $('#map').append(v.render().el);
+        var subLayerOptions = {
+          sql: "SELECT * FROM hosptialsbyhac_clean",
+        }
+        var sublayer = layer.getSubLayer(0);
+
+        sublayer.set(subLayerOptions);
+
+        sublayers.push(sublayer);
+        detectUserLocation();
+      }).on('error', function() {
+        //log the error
+      });
+      }
+      </script>
 </head>
 
-<body class="">
+<body onload="init()" class="">
     <div id="main-wrapper" class="">
         <div id="main-content" class="container">
             <header class="row">
@@ -62,59 +129,8 @@
             </header>
 
                 <div class="row">
-                        <div class="col-md-6 chart" id="map">
-
-                            <script>
-                                function main() {
-                                    cartodb.createVis('map', 'http://decodedc.cartodb.com/api/v2/viz/c41338c4-c877-11e4-aa87-0e9d821ea90d/viz.json', {
-                                        https: true,
-                                        cartodb_logo: false,
-                                        shareable: false,
-                                        title: false,
-                                        description: false,
-                                        search: true,
-                                        tiles_loader: true,
-                                        center_lat: 38.9097,
-                                        center_lon: -77.0231,
-                                        zoom: 12
-                                    })
-                                    .done(function(vis, layers) {
-                                      // layer 0 is the base layer, layer 1 is cartodb layer
-                                      // setInteraction is disabled by default
-                                      layers[1].setInteraction(true);
-                                      layers[1].on('featureOver', function(e, latlng, pos, data) {
-                                        cartodb.log.log(e, latlng, pos, data);
-                                      });
-
-                                      // you can get the native map to work with it
-                                      var map = vis.getNativeMap();
-
-                                      // now, perform any operations you need
-                                      
-                                      var sql = new cartodb.SQL({ user: 'decodedc' });
-                                            sql.execute("SELECT * FROM table_name WHERE id > {{id}}", { id: 3 })
-                                              .done(function(data) {
-                                                console.log(data.rows);
-                                              })
-                                              .error(function(errors) {
-                                                // errors contains a list of errors
-                                                console.log("errors:" + errors);
-                                              })
-
-
-                                      // map.setZoom(3);
-                                      // map.panTo([50.5, 30.5]);
-                                    })
-                                    .error(function(err) {
-                                      console.log(err);
-                                    });
-                                  }
-
-                                  window.onload = main;
-
-                            </script>
-                            
-                       </div>
+                        <div class="col-md-6 chart" id="map">   
+                        </div>
 
                        <div class="col-md-6 table-responsive" id="list">
 
@@ -143,5 +159,5 @@
                 </div>
         </div>
     </div>
-
+</body>
 </html>
