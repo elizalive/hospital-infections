@@ -55,20 +55,28 @@
                             <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb. </p>
 
                             <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.</p>
-                        </div>
 
+                            <p>Test change booyah.</p>
+                        </div>
+                </div>
+            </header>
+
+                <div class="row">
                         <div class="col-md-6 chart" id="map">
+
                             <script>
                                 function main() {
                                     cartodb.createVis('map', 'http://decodedc.cartodb.com/api/v2/viz/c41338c4-c877-11e4-aa87-0e9d821ea90d/viz.json', {
-                                        shareable: true,
-                                        title: true,
-                                        description: true,
+                                        https: true,
+                                        cartodb_logo: false,
+                                        shareable: false,
+                                        title: false,
+                                        description: false,
                                         search: true,
                                         tiles_loader: true,
-                                        center_lat: 0,
-                                        center_lon: 0,
-                                        zoom: 2
+                                        center_lat: 38.9097,
+                                        center_lon: -77.0231,
+                                        zoom: 12
                                     })
                                     .done(function(vis, layers) {
                                       // layer 0 is the base layer, layer 1 is cartodb layer
@@ -82,6 +90,18 @@
                                       var map = vis.getNativeMap();
 
                                       // now, perform any operations you need
+                                      
+                                      var sql = new cartodb.SQL({ user: 'decodedc' });
+                                            sql.execute("SELECT * FROM table_name WHERE id > {{id}}", { id: 3 })
+                                              .done(function(data) {
+                                                console.log(data.rows);
+                                              })
+                                              .error(function(errors) {
+                                                // errors contains a list of errors
+                                                console.log("errors:" + errors);
+                                              })
+
+
                                       // map.setZoom(3);
                                       // map.panTo([50.5, 30.5]);
                                     })
@@ -93,7 +113,35 @@
                                   window.onload = main;
 
                             </script>
-                       
-                        </div>
-                    </div>
+                            
+                       </div>
+
+                       <div class="col-md-6 table-responsive" id="list">
+
+                            <script>
+
+
+
+                                var data = [ [ 1, 2, 3 ], [ 4, 5, 6 ], [7, 8, 9 ] ];
+
+                                var html = '<table class ="table-bordered"><thead><tr>...</tr></thead><tbody>';
+                                for (var i = 0, len = data.length; i < len; ++i) {
+                                    html += '<tr>';
+                                    for (var j = 0, rowLen = data[i].length; j < rowLen; ++j ) {
+                                        html += '<td>' + data[i][j] + '</td>';
+                                    }
+                                    html += "</tr>";
+                                }
+                                html += '</tbody><tfoot><tr>....</tr></tfoot></table>';
+
+                                $(html).appendTo('#list');
+                            </script>
+                        
+
+                       </div>
+
+                </div>
+        </div>
+    </div>
+
 </html>
