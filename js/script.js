@@ -1,18 +1,6 @@
- //Get initial user location using Geolocator.js
-
- 
-
-//Pass user location to CartoDB.js
+//Insert table
 
 
-
-
-
-
-
-
-
-//Draw map
 
 
 

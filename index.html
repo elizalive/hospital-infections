@@ -58,8 +58,12 @@
 
                             <p>Test change booyah.</p>
                         </div>
+                </div>
+            </header>
 
+                <div class="row">
                         <div class="col-md-6 chart" id="map">
+
                             <script>
                                 function main() {
                                     cartodb.createVis('map', 'http://decodedc.cartodb.com/api/v2/viz/c41338c4-c877-11e4-aa87-0e9d821ea90d/viz.json', {
@@ -68,7 +72,7 @@
                                         shareable: false,
                                         title: false,
                                         description: false,
-                                        search: false,
+                                        search: true,
                                         tiles_loader: true,
                                         center_lat: 38.9097,
                                         center_lon: -77.0231,
@@ -86,6 +90,18 @@
                                       var map = vis.getNativeMap();
 
                                       // now, perform any operations you need
+                                      
+                                      var sql = new cartodb.SQL({ user: 'decodedc' });
+                                            sql.execute("SELECT * FROM table_name WHERE id > {{id}}", { id: 3 })
+                                              .done(function(data) {
+                                                console.log(data.rows);
+                                              })
+                                              .error(function(errors) {
+                                                // errors contains a list of errors
+                                                console.log("errors:" + errors);
+                                              })
+
+
                                       // map.setZoom(3);
                                       // map.panTo([50.5, 30.5]);
                                     })
@@ -97,7 +113,35 @@
                                   window.onload = main;
 
                             </script>
-                       
-                        </div>
-                    </div>
+                            
+                       </div>
+
+                       <div class="col-md-6 table-responsive" id="list">
+
+                            <script>
+
+
+
+                                var data = [ [ 1, 2, 3 ], [ 4, 5, 6 ], [7, 8, 9 ] ];
+
+                                var html = '<table class ="table-bordered"><thead><tr>...</tr></thead><tbody>';
+                                for (var i = 0, len = data.length; i < len; ++i) {
+                                    html += '<tr>';
+                                    for (var j = 0, rowLen = data[i].length; j < rowLen; ++j ) {
+                                        html += '<td>' + data[i][j] + '</td>';
+                                    }
+                                    html += "</tr>";
+                                }
+                                html += '</tbody><tfoot><tr>....</tr></tfoot></table>';
+
+                                $(html).appendTo('#list');
+                            </script>
+                        
+
+                       </div>
+
+                </div>
+        </div>
+    </div>
+
 </html>
