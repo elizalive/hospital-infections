@@ -2,16 +2,14 @@
  <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
     
-    <!-- Link to geolocator.js -->
-    <script type="text/javascript" src="geolocator.js"></script>
-    
+       <!-- Link to jquery.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css"> 
     
     <!-- Link to CartoDB styles -->
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
-    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
-    <link rel="stylesheet" href="css/style.css"/>
 
     <!-- Latest compiled and minified Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -20,11 +18,7 @@
     <!-- Link to CartoDB.js -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
 
-    <!-- Link to jquery.js-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-    <!-- Link to D3.js-->
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
       var sublayers = [];
@@ -43,7 +37,7 @@
       lon = position.coords.longitude;
       lat = position.coords.latitude;
       updateQuery();
-      map.setView(new L.LatLng(lat,lon), 10);
+      map.setView(new L.LatLng(lat,lon), 13);
       new L.CircleMarker([lat,lon],{radius: 4}).addTo(map);
       }
       function detectUserLocation(){
@@ -81,11 +75,11 @@
           zoom: 5
         })
 
-        L.tileLayer('https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png', {
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
           attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
         }).addTo(map);
       
-      var layerUrl = 'http://decodedc.cartodb.com/api/v2/viz/9d6fb234-ccd6-11e4-af9a-0e853d047bba/viz.json';
+      var layerUrl = 'http://decodedc.cartodb.com/api/v2/viz/0e1a4690-cdbb-11e4-92eb-0e0c41326911/viz.json';
 
       
 
@@ -97,7 +91,7 @@
                 v.show();
                 $('#map').append(v.render().el);
         var subLayerOptions = {
-          sql: "SELECT * FROM hosptialsbyhac_clean",
+          sql: "SELECT * FROM hospitals_no_null_totalhacscore",
         }
         var sublayer = layer.getSubLayer(0);
 
@@ -117,13 +111,10 @@
         <div id="main-content" class="container">
             <header class="row">
                 <div class="col-md-12">
-                    <h1>Test Visualization</h1>
+                    <h1>Find penalized hospitals near you</h1>
                         <div class="introtext">
-                            <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb. </p>
-
-                            <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.</p>
-
-                            <p>Test change booyah.</p>
+                            <p>Let the browser find your location to see hospitals in your area. Hover over a point to learn more.</p>
+                            <p> Find hospitals anywhere in the U.S. by typing a city, state or address in the search box.</p>
                         </div>
                 </div>
             </header>
@@ -132,7 +123,7 @@
                         <div class="col-md-6 chart" id="map">   
                         </div>
 
-                       <div class="col-md-6 table-responsive" id="list">
+                       <!-- <div class="col-md-6 table-responsive" id="list">
 
                             <script>
 
@@ -154,7 +145,7 @@
                             </script>
                         
 
-                       </div>
+                       </div> -->
 
                 </div>
         </div>
