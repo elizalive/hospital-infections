@@ -10,9 +10,14 @@
   <style>
     html, body {width:100%; height:100%; padding: 25px; padding-top: 5px;margin: 0;}
 
-    h1 {color: #484A49; margin: .67em 0; font-size: 2em; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-top: 20px; margin-bottom: 20px;font-weight: 500; line-height: 1.1;}
+    #text {
+      width: 600px;
 
-    p {color: #484A49; margin: .67em 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-top: 10px; margin-bottom: 10px;}
+    }
+
+    h1 {color: #484A49; margin: .67em 0; font-size: 2.25em; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-top: 20px; margin-bottom: 20px; font-weight: 500; line-height: 1.1;}
+
+    p {font-size: 16px; color: #484A49; margin: .67em 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-top: 10px; margin-bottom: 10px;}
 
     #cartodb-map {width: 600px; height:500px; background: white;}
   </style>
@@ -104,9 +109,12 @@
   </script>
 </head>
 <body onload="init()">
+  <div id = 'text'>
   <h1 >Find penalized hospitals near you</h1>
-        <p>Let the browser find your location to see hospitals in your area. Hover over a point to learn more.</p>
-        <p> Find hospitals anywhere in the U.S. by typing a city, state or address in the search box.</p>
+        <p>Let the browser use your location to find hospitals in your area, or find hospitals anywhere in the U.S. by typing a city, state or address in the search box.</p>
+        <p> Hover over a point to learn more, and click on a point to see that hospital's infection scores.</p>
+  </div>
   <div id='cartodb-map'></div>
+  <p style="font-size: 12px">Data Source: <a href="http://www.medicare.gov/hospitalcompare/HAC-reduction-program.html">Centers for Medicare and Medicaid Services</a><p>
 </body>
 </html>
