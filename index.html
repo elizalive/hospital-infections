@@ -1,15 +1,16 @@
 <html>
 <head>
   <!-- Latest compiled and minified Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap.css"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
   <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
   <![endif]-->
   <style>
-    html, body {width:100%; height:100%; padding: 0; margin: 0;}
-    #cartodb-map { width: 100%; height:100%; background: white;}
+    html, body {width:100%; height:100%; padding: 25px; padding-top: 5px;margin: 0;}
+    #cartodb-map {width: 600px; height:500px; background: white;}
   </style>
 
   <script>
@@ -60,6 +61,8 @@
 
       var map;
 
+
+
       function init(){
         // initiate leaflet map
         map = new L.Map('cartodb-map', { 
@@ -72,13 +75,15 @@
         }).addTo(map);
       
       var layerUrl = 'http://decodedc.cartodb.com/api/v2/viz/0e1a4690-cdbb-11e4-92eb-0e0c41326911/viz.json';
-      cartodb.createLayer(map, layerUrl)
+
+  
+     cartodb.createLayer(map, layerUrl)
       .addTo(map)
       .on('done', function(layer) {
-        // change the query for the first layer
         var v = cdb.vis.Overlay.create('search', map.viz, {})
                 v.show();
-                $('#map').append(v.render().el);
+                $('#cartodb-map').append(v.render().el);
+        
         var subLayerOptions = {
           sql: "SELECT * FROM hospitals_no_null_totalhacscore",
         }
@@ -91,15 +96,15 @@
       }).on('error', function() {
         //log the error
       });
-    }
+      }
   </script>
 </head>
 <body onload="init()">
   <h1>Find penalized hospitals near you</h1>
-  <div class="introtext">
-    <p>Let the browser find your location to see hospitals in your area. Hover over a point to learn more.</p>
-    <p> Find hospitals anywhere in the U.S. by typing a city, state or address in the search box.</p>
-  </div>
+      <div class="introtext">
+          <p>Let the browser find your location to see hospitals in your area. Hover over a point to learn more.</p>
+          <p> Find hospitals anywhere in the U.S. by typing a city, state or address in the search box.</p>
+      </div>
   <div id='cartodb-map'></div>
 </body>
 </html>
